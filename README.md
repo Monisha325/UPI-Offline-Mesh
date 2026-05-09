@@ -1,4 +1,4 @@
-# UPI Offline Mesh — My Project
+# UPI Offline Mesh 
 
 A Spring Boot backend I built to demonstrate **offline UPI payments routed through a Bluetooth-style mesh network**. The core idea: you're in a basement with zero connectivity. You send your friend ₹500. Your phone encrypts the payment, broadcasts it to nearby phones, and the packet hops device-to-device until *some* phone walks outside, gets 4G, and silently uploads it to my backend. The backend decrypts, deduplicates, and settles.
 
