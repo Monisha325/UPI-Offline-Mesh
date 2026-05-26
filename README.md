@@ -432,8 +432,4 @@ I'd describe this project honestly as **"mesh-routed deferred settlement"** rath
 
 **Tests fail intermittently** — The concurrency test is timing-sensitive. If it ever flakes, run it 3x; if it consistently fails on your hardware, file the actual failure output.
 
----
 
-## License
-
-Demo code, no license. Use it however you want for learning.
