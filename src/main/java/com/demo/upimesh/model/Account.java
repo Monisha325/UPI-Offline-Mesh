@@ -21,15 +21,19 @@ public class Account {
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 
+    @Column(nullable = false)
+    private String pinHash;  // SHA-256 hex of the user's PIN
+
     @Version  // Optimistic locking — prevents lost updates on concurrent transfers
     private Long version;
 
     public Account() {}
 
-    public Account(String vpa, String holderName, BigDecimal balance) {
+    public Account(String vpa, String holderName, BigDecimal balance, String pinHash) {
         this.vpa = vpa;
         this.holderName = holderName;
         this.balance = balance;
+        this.pinHash = pinHash;
     }
 
     public String getVpa() { return vpa; }
@@ -40,6 +44,9 @@ public class Account {
 
     public BigDecimal getBalance() { return balance; }
     public void setBalance(BigDecimal balance) { this.balance = balance; }
+
+    public String getPinHash() { return pinHash; }
+    public void setPinHash(String pinHash) { this.pinHash = pinHash; }
 
     public Long getVersion() { return version; }
     public void setVersion(Long version) { this.version = version; }

@@ -54,6 +54,7 @@ public class BridgeIngestionService {
             } catch (Exception e) {
                 log.warn("Decryption failed for packet {}: {}",
                         packetHash.substring(0, 12) + "...", e.getMessage());
+                idempotency.release(packetHash);
                 return IngestResult.invalid(packetHash, "decryption_failed");
             }
 
@@ -62,9 +63,11 @@ public class BridgeIngestionService {
             if (ageSeconds > maxAgeSeconds) {
                 log.warn("Packet {} too old ({}s), rejected",
                         packetHash.substring(0, 12) + "...", ageSeconds);
+                idempotency.release(packetHash);
                 return IngestResult.invalid(packetHash, "stale_packet");
             }
             if (ageSeconds < -300) { // small clock-skew tolerance
+                idempotency.release(packetHash);
                 return IngestResult.invalid(packetHash, "future_dated");
             }
 

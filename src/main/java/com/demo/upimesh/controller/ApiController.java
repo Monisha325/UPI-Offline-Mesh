@@ -50,6 +50,21 @@ public class ApiController {
      */
     @PostMapping("/demo/send")
     public ResponseEntity<?> demoSend(@RequestBody DemoSendRequest req) throws Exception {
+        if (req.senderVpa == null || req.senderVpa.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "senderVpa is required"));
+        }
+        if (req.receiverVpa == null || req.receiverVpa.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "receiverVpa is required"));
+        }
+        if (req.senderVpa.equals(req.receiverVpa)) {
+            return ResponseEntity.badRequest().body(Map.of("error", "sender and receiver must differ"));
+        }
+        if (req.amount == null || req.amount.signum() <= 0) {
+            return ResponseEntity.badRequest().body(Map.of("error", "amount must be positive"));
+        }
+        if (req.pin == null || req.pin.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "pin is required"));
+        }
         MeshPacket packet = demo.createPacket(
                 req.senderVpa, req.receiverVpa, req.amount, req.pin,
                 req.ttl == null ? 5 : req.ttl);

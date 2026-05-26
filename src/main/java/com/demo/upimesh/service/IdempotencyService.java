@@ -50,6 +50,11 @@ public class IdempotencyService {
         seen.entrySet().removeIf(e -> e.getValue().isBefore(cutoff));
     }
 
+    /** Release a previously claimed hash (called when processing fails before settlement). */
+    public void release(String packetHash) {
+        seen.remove(packetHash);
+    }
+
     /** Test/demo helper. */
     public void clear() {
         seen.clear();

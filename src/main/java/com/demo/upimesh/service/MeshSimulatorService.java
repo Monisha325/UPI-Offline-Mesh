@@ -35,8 +35,8 @@ public class MeshSimulatorService {
         devices.put("phone-alice",   new VirtualDevice("phone-alice",   false));
         devices.put("phone-stranger1", new VirtualDevice("phone-stranger1", false));
         devices.put("phone-stranger2", new VirtualDevice("phone-stranger2", false));
-        devices.put("phone-stranger3", new VirtualDevice("phone-stranger3", false));
-        devices.put("phone-bridge",  new VirtualDevice("phone-bridge",  true));
+        devices.put("phone-bridge2",   new VirtualDevice("phone-bridge2",   true));
+        devices.put("phone-bridge",    new VirtualDevice("phone-bridge",    true));
     }
 
     public Collection<VirtualDevice> getDevices() {

@@ -36,13 +36,22 @@ public class SettlementService {
     public Transaction settle(PaymentInstruction instruction, String packetHash,
                               String bridgeNodeId, int hopCount) {
 
-        Account sender = accounts.findById(instruction.getSenderVpa())
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Unknown sender VPA: " + instruction.getSenderVpa()));
+        Account sender = accounts.findById(instruction.getSenderVpa()).orElse(null);
+        if (sender == null) {
+            log.warn("Unknown sender VPA: {}", instruction.getSenderVpa());
+            return recordRejected(instruction, packetHash, bridgeNodeId, hopCount);
+        }
 
-        Account receiver = accounts.findById(instruction.getReceiverVpa())
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Unknown receiver VPA: " + instruction.getReceiverVpa()));
+        Account receiver = accounts.findById(instruction.getReceiverVpa()).orElse(null);
+        if (receiver == null) {
+            log.warn("Unknown receiver VPA: {}", instruction.getReceiverVpa());
+            return recordRejected(instruction, packetHash, bridgeNodeId, hopCount);
+        }
+
+        if (!sender.getPinHash().equals(instruction.getPinHash())) {
+            log.warn("PIN mismatch for sender {}", sender.getVpa());
+            return recordRejected(instruction, packetHash, bridgeNodeId, hopCount);
+        }
 
         BigDecimal amount = instruction.getAmount();
         if (amount.signum() <= 0) {
