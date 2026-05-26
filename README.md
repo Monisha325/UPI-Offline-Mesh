@@ -11,9 +11,6 @@ This repo is the **server side** of that system, plus a software simulator of th
 <img width="1280" height="1614" alt="image" src="https://github.com/user-attachments/assets/5d76ccbb-47ab-42bf-99b8-28832e447e39" />
 
 ---
-## Live Demo
-![alt text](image.png)
----
 
 ## Table of Contents
 
